@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <!-- Website Title & Description for Search Engine purposes -->
+    <title>State Bank Of India</title>
+    <meta name="description" content="">
+    <!-- Mobile viewport optimized -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <!-- Bootstrap CSS -->
+    <link href="Bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link href='https://fonts.googleapis.com/css?family=Playfair+Display:700' rel='stylesheet' type='text/css'>
+    <link href="Includes/css/stylesheet.css" rel="stylesheet">
+    <!-- Include Modernizr in the head, before any other Javascript -->
+    <script src="Js/jquery-3.1.0.js"></script>
+</head> <!-- end of head -->
+
+<body>
+    <nav class="navbar navbar-default navbar-fixed-top">  <!-- navbar -->
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span> 
+                </button>
+                <a><img src="Images/logo1.jpg"></a>                
+            </div> <!-- end navbar-header -->
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav">
+                    <li class="active"><a href="#">Home<span class="sr-only">(current)</span></a></li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">SBI services<span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="#">Music Mojo</a></li>
+                            <li><a href="#">Star Jam</a></li>
+                            <li><a href="#">Love Bytes</a></li>
+                            <li role="separator" class="divider"></li>
+                            <li><a href="#">I Personaliy</a></li>
+                            <li role="separator" class="divider"></li>
+                            <li><a href="#">The Cheif</a></li>
+                        </ul>
+                    </li>
+                    <li class="activeaa"><a href="#">Loan<span class="sr-only"></span></a></li>
+                    <li class="activeaa"><a href="#">SBI Plans<span class="caret"></span></a></li>
+                    <li class="activeaa"><a href="#">Security Tips<span class="caret"></span></a></li>
+                    <li class="activeaa"><a href="#">Help<span class="caret"></span></a></li>
+                    <li class="activeaa"><a href="#">Offers<span class="caret"></span></a></li>
+                </ul>            
+                <ul class="nav navbar-nav navbar-right">
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">My Account<span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                           <li>
+                              <a href="#"><span class="glyphicon glyphicon-user"></span>My Profile</a>
+                           </li>
+                           <li>
+                              <a href="#"><span class="glyphicon glyphicon-camera"></span>Photo</a>
+                           </li>
+                           <li>
+                              <a href="#"><span class="glyphicon glyphicon-wrench"></span>Setting</a>
+                           </li>
+                           <li>
+                              <a href="#"><span class="glyphicon glyphicon-"></span>Logout</a>
+                           </li>
+                      </ul>
+                  </li>
+              </ul>
+          </div>   <!-- end of collapse navbar-collapse -->  
+      </div> <!-- end container -->
+  </nav>    <!-- end nav -->
+
+  <!-- main container -->       
+  <div class="container mainbody" id="main">
+    <div class="row" id="bigCallout">
+        <div class="container callout">               
+            <div class="page-header">
+                <marquee style="font-family:Book Antiqua; font-size: 28px; color: white" bgcolor="#000080" scrolldelay="90" scrollamount="5" height="30px">Welcome to State Bank Of India....  Fastest Banking, Safe-Locker, Internet Banking, 100% Trust,  </marquee>
+            </div>   <!-- end page-header -->
+            <!-- Input search text -->
+            <div class="container content fields">
+                <input type="text" id="customername" placeholder="Customer Name">
+                <button type="button" class="btn btn-primary" id="search">
+                <span class="glyphicon glyphicon-search"></span></button>
+                <button type="button" class="btn btn-warning view" id="btnviewall">View All</button>
+
+                <a role="button" href="#myModal" id="addNewUser" data-toggle="modal" class="btn btn-default newcustomer"><span class="glyphicon glyphicon-user"></span> Add New Customer</a>
+                <div class="modal fade" id="myModal">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button class="close" data-dismiss="modal">&times;</button>
+                                <h3 class="modal-title">SBI Customer Details&nbsp<span class="glyphicon glyphicon-th"></span></h3>
+                            </div>
+                            <div class="modal-body">
+                                <p>
+                                    Fill all the fields</p>
+                                    <!--  <form class="horizontal-form"> -->
+                                    <form class="form-horizontal">
+                                       <div class="form-group">
+                                        <label class="col-sm-2 control-label" for="id">Id</label>
+                                        <input type="text" id="txtId" class="col-sm-8">
+                                      </div> 
+                                      <div class="form-group">
+                                        <label class="col-sm-2 control-label" for="id">Name</label>
+                                        <input type="text" id="txtName" class="col-sm-8">
+                                      </div>                                        
+                                      <div class="form-group">
+                                         <label class="col-sm-2 control-label" for="id">A/C No</label>
+                                         <input type="text" id="txtAccountNumber" class="col-sm-8">
+                                        </div>                                        
+                                        <div class="form-group">
+                                          <label class="col-sm-2 control-label" for="id">A/C Type</label>
+                                          <input type="text" id="txtAccountType" class="col-sm-8">
+                                        </div>                                        
+                                        <div class="form-group">
+                                          <label class="col-sm-2 control-label" for="id">Age</label>
+                                          <input type="text" id="txtAge" class="col-sm-8">
+                                        </div>                                        
+                                        <div class="form-group">
+                                          <label class="col-sm-2 control-label" for="id">Address</label>
+                                          <input type="text" id="txtAddress" class="col-sm-8">
+                                        </div>                                        
+                                        <div class="form-group">
+                                          <label class="col-sm-2 control-label" for="id">Contact</label>
+                                          <input type="text" id="txtContact" class="col-sm-8">
+                                        </div>                                      
+                                    </form>
+                            </div>
+                                <div class="modal-footer">
+                                    <button class="btn btn-primary" role="button" data-dismiss="modal">Cancel</button>
+                                    <button class="btn btn-primary" id="submitbtn" role="button">Submit</button>
+                                    <button class="btn btn-primary" id="updatebtn" role="button">Update</button>
+                                </div>
+                        </div>
+                    </div>
+                </div>
+            </div>                    <!-- end modal window -->
+
+                    <ul id="orders">
+                        
+                    </ul>
+                             <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mustache.js/2.2.1/mustache.js"></script>
+        </div>
+    </div>
+
+        <div class="container content-display">
+          <table id="bankdetails" class="table table-striped">
+          </table>
+        </div> <!-- end containermain-body -->
+
+                  <template id="templateheading">                         
+                      <thead>
+                          <tr>
+                              <th>ID</th>
+                              <th>Name</th>
+                              <th>Account Number</th>
+                              <th>Account Type</th>
+                              <th>Age</th>
+                              <th>Address</th>
+                              <th>Contact</th>
+                              <th>More</th>
+                          </tr>
+                      </thead>
+                  </template> <!-- end first template -->
+                  <template id="allbankdetails">
+                    <tbody id="xyz">
+                       <tr id="trow">                                        
+                        <th>{{id}}</th>
+                        <th>{{firstname}}</th>
+                        <th>{{accountnumber}}</th>
+                        <th>{{accounttype}}</th>             
+                        <th>{{age}}</th>
+                        <th>{{address}}</th>
+                        <th>{{phone}}</th> 
+
+                        <!-- edit delete buttons --> 
+                        <th><button type="button" id="editbtn" data-id="{{id}}" class="btn btn-success noeditt btnedit">Edit</button></th>  
+                        <th><button type="button" id="deletebtn" data-id="{{id}}" class="btn btn-danger edit btndelete"><span class="glyphicon glyphicon-trash"></span></button></th>       
+                    </tr>
+                </tbody>
+                </template><!-- end 2 templates -->
+<!-- next prev button -->
+<div class="container">
+ <button type="button"  id="prev" class="btn btn-default pull-left"><span class="glyphicon glyphicon-fast-backward"></span></button>
+ <button type="button" id= "next" class="btn btn-default pull-right"><span class="glyphicon glyphicon-fast-forward"></span></button>
+</div>
+
+<!-- All Javascript at the bottom of the page for faster page loading -->
+<!-- First try for the online version of jQuery-->
+<script src="http://code.jquery.com/jquery.js"></script>
+<!-- If no online access, fallback to our hardcoded version of jQuery -->
+<script>
+    window.jQuery || document.write('<script src="Js/jquery-3.1.0.js"><\/script>')
+</script>
+
+<!-- Custom JS -->
+<script src="Includes/js/script.js"></script>
+<script type="text/javascript" src="Bootstrap/js/bootstrap.min.js"></script>
+</body>
+</html>
