@@ -1,26 +1,27 @@
 $(document).ready(function(){
-	var $bankdetails=$('#bankdetails');
-	var $allbankdetails=$('#allbankdetails');
-	var datas=$('#allbankdetails').html();
-	var headings=$('#templateheading').html();
-	var start=0;
+	var checkHeading = 1;
+	var $bankdetails = $('#bankdetails');
+	var $allbankdetails = $('#allbankdetails');
+	var datas = $('#allbankdetails').html();
+	var headings = $('#templateheading').html();
+	var start = 0;
 	$('#prev').hide();
 	$('#next').hide();
 
 	//search----------------------------------------
        $("#search").click(function(){
        $("#xyz").remove();
-       console.log("hai");
+       //console.log("hai");
        $bankdetails.html("");
-       var title=$('#customername').val();
+       var title = $('#customername').val();
        console.log(title);
             //Ajax search----------------------------
     		$.ajax({
 			type:"GET",
 			url : 'http://localhost:8080/Bank?firstname='+title+'&_start=0&_limit=50',
 			success: function(result){
-				var obj=result;
-				var Search=obj.Search;
+				var obj = result;
+				var Search = obj.Search;
 				console.log(Search);
                 $bankdetails.append(Mustache.render(headings));
 				$.each(result,function(i,bank){
@@ -35,19 +36,19 @@ $(document).ready(function(){
     	}); //end   
 
 		  //add new customer
-		  $("#submitbtn").click(function(){
-		  	 $bankdetails.html("");
-		  	    var $ID=$('#txtId').val();
-		  	    var $NAME=$('#txtName');
-		  	    var $ACCOUNTNUMBER=$('#txtAccountNumber');
-		  	    var $ACCOUNTTYPE=$('#txtAccountType');
-		  	    var $AGE=$('#txtAge');
-		  	    var $ADDRESS=$('#txtAddress');
-		  	    var $CONTACT=$('#txtContact');
+		  $("#submitbtn").click('submit', function(e){
+              e.preventDefault();
+		  	 //$bankdetails.html("");
+		  	    var $ID = $('#txtId').val();
+		  	    var $NAME = $('#txtName');
+		  	    var $ACCOUNTNUMBER = $('#txtAccountNumber');
+		  	    var $ACCOUNTTYPE = $('#txtAccountType');
+		  	    var $AGE = $('#txtAge');
+		  	    var $ADDRESS = $('#txtAddress');
+		  	    var $CONTACT = $('#txtContact');
 		  	    $('#myModal').modal('toggle');
 
-
-		  	     var newcustomer={
+		  	     var newcustomer = {
 		  	                id:$ID,
 		  	                firstname:$NAME.val(),
 		  	                accountnumber:$ACCOUNTNUMBER.val(),
@@ -56,26 +57,26 @@ $(document).ready(function(){
 		  	                address:$ADDRESS.val(),
 		  	                phone:$CONTACT.val(),
 		  	            };
-
 		  	            console.log(newcustomer);
-		  //Ajax for new customer-------------------
+		  	            validationform();
+        		  //Ajax for new customer-------------------
 		  	      $.ajax({
 					type:"POST",
 					url : 'http://localhost:8080/Bank/',
 					data:newcustomer,
 					success:function(newcustomer){
-				    $bankdetails.append(Mustache.render(headings));
+						if(checkHeading == 1){
+				    $bankdetails.append(Mustache.render(headings));}
+				    checkHeading ++;
 					$bankdetails.append(Mustache.render(datas,newcustomer));
 						}
+					});
+		  	      window.alert("successfully Insert");
+			  });   //end of add newcustomer
 
-					});	
-		
-
-		  	      window.alert("successfully Insert")
-			  });   //end of add newcustomer          
            //delete--------------------------
             $('#bankdetails').delegate('#deletebtn','click',function() {
-            	var tr=$(this).closest('tr');
+            	var tr = $(this).closest('tr');
             	 $.ajax({
             	 	type:'DELETE',
             	 	url:'http://localhost:8080/Bank/'+$(this).attr('data-id'),
@@ -90,16 +91,18 @@ $(document).ready(function(){
             	 });
             	 window.alert('successfully deleted');
             });
+
             // view all details----------------------------------------------
             $('#btnviewall').click(function(){
             	$bankdetails.html("");
+            	$('#prev').hide();
             	  	//$("#xyz").remove();
             	  	//$("#customername").val('');            	
             	$.ajax({
 			           type:"GET",
 			           url : 'http://localhost:8080/Bank/?_limit=10',
 			            success: function(result){
-			            	var obj=result;
+			            	var obj = result;
 							$.each(result,function(i,obj){
 					        $bankdetails.append(Mustache.render(datas,obj));
 				      });             
@@ -110,13 +113,13 @@ $(document).ready(function(){
             });
 // ----------------pagination----------------------
 var totalrecords = 0;
-var page=1;
+var page = 1;
 $(function(){
 	$.ajax({
 		type: "GET",
 		url: 'http://localhost:8080/Bank/',
 		success: function(alldata){
-			totalrecords=alldata.length;
+			totalrecords = alldata.length;
 			console.log(totalrecords);
 		},
 		error:function(){
@@ -133,13 +136,18 @@ $(function(){
 							}
 							
 // ------------------prev button
+if(page <=1 ){
+		$('#prev').prop("disabled",true);
+	}
 $('#prev').on('click',function(){
+	//console.log(page);
+	
 	$('#bankdetails').empty();
-	if(page<=totalrecords)
+
+	if(page <= totalrecords)
 	{
 		page = page-1;
 		$('#next').prop("disabled",false);
-
 		$.ajax({
 			type:'GET',		
 		    url:'http://localhost:8080/Bank/?&_page='+page+'&_limit=10', 
@@ -152,18 +160,28 @@ $('#prev').on('click',function(){
 			alert('ERROR on loading Server');
 		}
 	});
+
 	}
-	if(page==1){
-		$('#previous').prop("disabled",true);
+	if(page <=1 ){
+		$('#prev').prop("disabled",true);
 	}
+	
 });
 				//--------------next
 				$('#next').on('click',function() {
-					console.log("clicked");
+					if(page == 0 )
+					{
+						$('#prev').hide();
+					}
+					if(page == totalrecords)
+					{
+						$('#next').hide();
+					}
+					console.log(page);
 					$('#bankdetails').empty();
-					if(page<totalrecords)
+					if(page < totalrecords)
 					{        
-						page=page+1;
+						page = page+1;
 						$('#prev').prop("disabled",false);
 						
 						$.ajax({
@@ -180,7 +198,7 @@ $('#prev').on('click',function(){
 						}
 					});
 					}
-					if(page==totalrecords)
+					if(page == totalrecords)
 					{
 						$('#next').prop("disabled",true);
 					}
@@ -197,7 +215,7 @@ $('#prev').on('click',function(){
              	 	success:function(result){
              	 		console.log(result);
              	 		 $('#txtId').val(result.id);
-             	 		 txtId.disabled=true;
+             	 		 txtId.disabled = true;
             	 		 $('#txtName').val(result.firstname);
             	 		 $('#txtAccountNumber').val(result.accountnumber);
             	 		 $('#txtAccountType').val(result.accounttype);
@@ -212,13 +230,14 @@ $('#prev').on('click',function(){
 
     //------------------update----------------------
     $('#updatebtn').click(function(){
-            	var $updtID=$('#txtId');
-		  	    var $updtNAME=$('#txtName');
-		  	    var $updtACCOUNTNUMBER=$('#txtAccountNumber');
-		  	    var $updtACCOUNTTYPE=$('#txtAccountType');
-		  	    var $updtAGE=$('#txtAge');
-		  	    var $updtADDRESS=$('#txtAddress');
-		  	    var $updtCONTACT=$('#txtContact');
+
+            	var $updtID = $('#txtId');
+		  	    var $updtNAME = $('#txtName');
+		  	    var $updtACCOUNTNUMBER = $('#txtAccountNumber');
+		  	    var $updtACCOUNTTYPE = $('#txtAccountType');
+		  	    var $updtAGE = $('#txtAge');
+		  	    var $updtADDRESS = $('#txtAddress');
+		  	    var $updtCONTACT = $('#txtContact');
 
 		  	    var updtcustomer={
 		  	                //id:$updtID.val(),
@@ -243,7 +262,7 @@ $('#prev').on('click',function(){
 					});	
 		  	             window.alert("successfully Updated");  	          
 		  	             $('#myModal').modal('hide');
-		  	             location.reload();
+		  	             //location.reload();
 
     });
 
@@ -262,6 +281,20 @@ $('#prev').on('click',function(){
                                 $("#updatebtn").hide();
                                 $("#submitbtn").show();
 							 });
+
+
+							 //----------Validation-------------
+							 function validationform()
+							 {
+							 	valid=true;
+							 	var cusName=$('#firstname').val();
+							 	if(cusName == null || cusName == "")
+							 	{
+							 		alert("fill name");
+							 		valid=false;
+							 	}
+							 	return valid;
+							 }
   });
 
 
