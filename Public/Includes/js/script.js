@@ -5,6 +5,7 @@ $(document).ready(function(){
 	var datas = $('#allbankdetails').html();
 	var headings = $('#templateheading').html();
 	var start = 0;
+	var msg;
 	$('#prev').hide();
 	$('#next').hide();
 
@@ -14,7 +15,7 @@ $(document).ready(function(){
        //console.log("hai");
        $bankdetails.html("");
        var title = $('#customername').val();
-       console.log(title);
+       //console.log(title);
             //Ajax search----------------------------
     		$.ajax({
 			type:"GET",
@@ -22,12 +23,12 @@ $(document).ready(function(){
 			success: function(result){
 				var obj = result;
 				var Search = obj.Search;
-				console.log(Search);
+				//console.log(Search);
                 $bankdetails.append(Mustache.render(headings));
 				$.each(result,function(i,bank){
 				$bankdetails.append(Mustache.render(datas,bank));
 				});
-				console.log("After Each");
+				//console.log("After Each");
 			},
 		    error: function(){
 		 	alert("Invalid search");
@@ -46,7 +47,7 @@ $(document).ready(function(){
 		  	    var $AGE = $('#txtAge');
 		  	    var $ADDRESS = $('#txtAddress');
 		  	    var $CONTACT = $('#txtContact');
-		  	    $('#myModal').modal('toggle');
+		  	    
 
 		  	     var newcustomer = {
 		  	                id:$ID,
@@ -57,21 +58,33 @@ $(document).ready(function(){
 		  	                address:$ADDRESS.val(),
 		  	                phone:$CONTACT.val(),
 		  	            };
-		  	            console.log(newcustomer);
-		  	            validationform();
-        		  //Ajax for new customer-------------------
-		  	      $.ajax({
-					type:"POST",
-					url : 'http://localhost:8080/Bank/',
-					data:newcustomer,
-					success:function(newcustomer){
-						if(checkHeading == 1){
-				    $bankdetails.append(Mustache.render(headings));}
-				    checkHeading ++;
-					$bankdetails.append(Mustache.render(datas,newcustomer));
-						}
-					});
-		  	      window.alert("successfully Insert");
+		  	          //  console.log(newcustomer);
+		  	          valid = true;
+		  	          validationform();
+		  	            if(valid)
+		  	            {
+		        		  //Ajax for new customer-------------------
+				  	      $.ajax({
+							type:"POST",
+							url : 'http://localhost:8080/Bank/',
+							data:newcustomer,
+							success:function(newcustomer)
+							{
+								$('#myModal').modal('toggle');
+								if(checkHeading == 1)
+								{
+						    		$bankdetails.append(Mustache.render(headings));
+						    	}
+						    	checkHeading ++;
+								$bankdetails.append(Mustache.render(datas,newcustomer));
+							}
+						  });
+		  	      		  window.alert("successfully Insert");
+		  	  			}
+		  	  			else
+		  	  			{
+		  	  				alert(valid + " " + msg);
+		  	  			}
 			  });   //end of add newcustomer
 
            //delete--------------------------
@@ -120,7 +133,7 @@ $(function(){
 		url: 'http://localhost:8080/Bank/',
 		success: function(alldata){
 			totalrecords = alldata.length;
-			console.log(totalrecords);
+			//console.log(totalrecords);
 		},
 		error:function(){
 			alert('error');
@@ -177,7 +190,7 @@ $('#prev').on('click',function(){
 					{
 						$('#next').hide();
 					}
-					console.log(page);
+					//console.log(page);
 					$('#bankdetails').empty();
 					if(page < totalrecords)
 					{        
@@ -190,7 +203,7 @@ $('#prev').on('click',function(){
 					    	success:function(item) {
 							$.each(item,function(i,records){
 								viewAll(records);
-								console.log("viewed");
+								//console.log("viewed");
 							});         
 						},
 						error:function() {
@@ -213,7 +226,7 @@ $('#prev').on('click',function(){
          	 	type:'GET',
          	 	url:'http://localhost:8080/bank/'+$(this).attr('data-id'),
              	 	success:function(result){
-             	 		console.log(result);
+             	 		//console.log(result);
              	 		 $('#txtId').val(result.id);
              	 		 txtId.disabled = true;
             	 		 $('#txtName').val(result.firstname);
@@ -248,7 +261,7 @@ $('#prev').on('click',function(){
 		  	                address:$updtADDRESS.val(),
 		  	                phone:$updtCONTACT.val(),
 		  	            };
-		  	            console.log(updtcustomer);
+		  	           // console.log(updtcustomer);
 
 		  	             $.ajax({
 					        type:"PUT",
@@ -286,14 +299,54 @@ $('#prev').on('click',function(){
 							 //----------Validation-------------
 							 function validationform()
 							 {
-							 	valid=true;
-							 	var cusName=$('#firstname').val();
+							 	valid = true;
+							 	var cusName = $('#txtName').val();
+							 	var cusAccno = $('#txtAccountNumber').val();
+							 	var cusAccType = $('#txtAccountType').val();
+							 	var cusAge = $('#txtAge').val();
+							 	var cusAddress = $('#txtAddress').val();
+							 	var cusContact = $('#txtContact').val();
+							   var phoneno = /^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/;  
+							 						 	
+							 	if(cusContact == null || cusContact == "" || !cusContact.match(phoneno) || cusContact.indexOf(" ")!=-1)
+							 	{
+
+							 		console.log(cusContact);
+							 		msg="fill Contact";
+							 		valid=false;
+							 	}	
+							 	if(cusAddress == null || cusAddress == "")
+							 	{
+							 		console.log(cusAddress);
+							 		msg="fill Address";
+							 		valid=false;
+							 	}	
+							 	if(cusAge == null || cusAge == "" || isNaN(cusAge)|| cusAge < 1 || cusAge > 100)
+							 	{
+							 		console.log(cusAge);
+							 		msg="fill Age between 1 & 100";
+							 		valid=false;
+							 	}	
+							 	if(cusAccType == null || cusAccType == "")
+							 	{
+							 		console.log(cusAccType);
+							 		msg="fill A/c Type";
+							 		valid=false;
+							 	}	
+							 	if(cusAccno == null || cusAccno == "")
+							 	{
+							 		console.log(cusAccno);
+							 		msg="fill A/c No";
+							 		valid=false;
+							 	} 	
 							 	if(cusName == null || cusName == "")
 							 	{
-							 		alert("fill name");
+							 		console.log(cusName);
+							 		msg="fill name";
 							 		valid=false;
-							 	}
-							 	return valid;
+							 	}					 
+							 								 	
+							 	
 							 }
   });
 
